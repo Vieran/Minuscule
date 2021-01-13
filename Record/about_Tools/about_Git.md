@@ -77,7 +77,7 @@ vim .gitignore
 rm -rf .git
 git init
 git add .
-git cm "?" #?为commit的内容
+git commit -m "rebuild this repo"
 git remote add origin <github_repo_url>
 git push -f -u origin master
 ```

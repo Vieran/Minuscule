@@ -135,6 +135,12 @@ y$ #复制到行尾
 :s/old/new/g #替换所有old
 :n,ms/old/new/g #替换行号n和m之间所有old
 :%s/old/new/g #替换整个文件中的所有old
+
+#跳转
+CTRL+w hjkl #窗格间跳转，hjkl分别是左上下右
+CTRL+] #跳转到函数定义处（前提是生成了tags
+CTRL+o #向后跳到后几次光标位置（跳到函数之后，再输入这个就可以跳回原处
+CTRL+i #向前跳到前几次光标位置
 ```
 
 

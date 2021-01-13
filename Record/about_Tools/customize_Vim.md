@@ -177,7 +177,7 @@ let g:ale_disable_lsp = 1
 ### tagbar
 
 ```bash
-#生成tags的插件？
+#显示和跳转到函数定义的插件
 #首先需要安装universal-ctags
 #下载安装包/克隆GitHub仓库，并解压缩，进入到解压缩后的目录，指定安装位置并安装
 ./autogen.sh
@@ -186,8 +186,13 @@ let g:ale_disable_lsp = 1
 make -j
 make install
 
+#在当前目录下递归地为所有文件创建tags（会在当前目录下生成一个名为tags的文件
+ctags -R
+
 #在init.vim中加入
 Plug 'majutsushi/tagbar'
+nnoremap <silent><F10> :TagbarToggle<CR> #F10显示定义
+nnoremap <silent><F11> <C-]> #使用F11替代CTRL+]跳转到函数定义
 
 #查看使用帮助手册（暂时还没有去学很多这个相关的使用
 :help tagbar
