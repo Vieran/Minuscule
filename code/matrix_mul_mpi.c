@@ -17,7 +17,12 @@ int main(int argc, char** argv) {
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
 	int root = 0;
-	int job = row1 / size;
+	int job;
+
+	if (rank == root) {
+		job = row1 / size;
+		MPI_Bcast(&job, 1, MPI_INT, root, MPI_COMM_WORLD);
+	}
 
 	double (*matrix1)[column1] = (double (*)[column1])malloc(job * column1 * sizeof(double));
 	double (*matrix2)[column2] = (double (*)[column2])malloc(row2 * column2 * sizeof(double));
