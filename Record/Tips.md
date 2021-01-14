@@ -177,6 +177,9 @@ watch -n 10 squeue
 gcc -w yyy.c -o yyy.x #不输出警告信息
 
 update-alternatives #可以使用这个命令管理Linux上不同版本的软件，man可查看详情
+
+#使用man可用查看c语言函数的用法
+man printf
 ```
 
 [求两个Linux文本文件的交集、差集、并集](https://www.cnblogs.com/thatsit/p/6657993.html)、[diff不同输出格式的区别](https://www.cnblogs.com/wangqiguo/p/5793448.html#_label4)

@@ -169,6 +169,10 @@ Plug 'dense-analysis/ale'
 #在init.vim中加入下列语句
 let g:ale_disable_lsp = 1
 
+#如果打开文件的时候显示“xxx.h no such file”，则需要到/usr/include下找一找有没有对应的文件
+#如果找到是在文件夹里面，则创建一个软链接即可
+ln -s /directory/xxx.h xxx.h
+
 #更多的其他设置自行查看官方文档
 ```
 
