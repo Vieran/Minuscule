@@ -31,7 +31,6 @@ int main(int argc, char** argv) {
 	double (*matrix1)[column1] = (double (*)[column1])malloc(job * column1 * sizeof(double));
 	double (*matrix2)[column2] = (double (*)[column2])malloc(row2 * column2 * sizeof(double));
 
-
 	//initial matrix1
     for (int i = 0; i < job; i++) {
         //printf("\n");
@@ -49,6 +48,7 @@ int main(int argc, char** argv) {
             //printf("%lf ", matrix2[i][j]);
         }
     }
+	printf("rank=%d, row1=%d, column1=%d, row2=%d, column2=%d, job=%d\n", rank, row1, column1, row2, column2, job);
 
 	//counting and MPI
 	if (rank == root) {
@@ -58,16 +58,16 @@ int main(int argc, char** argv) {
 
 		//create and initialize matrix3
     	double (* matrix3)[column2] = (double (*)[column2])malloc(row1 * column2 * sizeof(double));
-		for (int i = rank; i < row1; i += job)
+		for (int i = rank; i < row1; i++)
 			for (int j = 0; j < column2; j++)
 				matrix3[i][j] = 0;
 
 		//counting
-		for (int i = rank; i < row1; i += job) {
+		for (int i = 0; i < job; i++) {
 			//printf("\n");
 			for (int j = 0; j < column2; j++) {
 				for (int k = 0; k < row2; k++)
-					matrix3[i][j] += matrix1[i][k] * matrix2[k][j];
+					matrix3[rank * job + i][j] += matrix1[i][k] * matrix2[k][j];
 				//printf("%lf ", matrix3[i][j]);
 			}
     	}
@@ -79,9 +79,9 @@ int main(int argc, char** argv) {
 		//put data into matrix3 according to the send rank
 		for (int i = 1; i < size; i++) {
 			MPI_Recv(&*matrix4, job * column1, MPI_DOUBLE, i, i, MPI_COMM_WORLD, &status);
-			for (int j = 0; j < job; j ++)
+			for (int j = 0; j < job; j++)
 				for (int k = 0; k < column2; k++)
-					matrix3[i + j * job][k] = matrix4[j][k];
+					matrix3[i * job + j][k] = matrix4[j][k];
 		}
 		
 		end_t = MPI_Wtime();
@@ -90,7 +90,7 @@ int main(int argc, char** argv) {
 
 	} else {
     	double (* matrix3)[column2] = (double (*)[column2])malloc(job * column2 * sizeof(double));
-		for (int i = 0; i < row1; i++)
+		for (int i = 0; i < job; i++)
 			for (int j = 0; j < column2; j++)
 				matrix3[i][j] = 0;
 		for (int i = 0; i < job; i++) {
