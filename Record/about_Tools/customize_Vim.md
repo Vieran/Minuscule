@@ -75,6 +75,9 @@ make -j #使用release是为了防止因为占用内存过大而被kill（这里
 make install
 #在脚本中将llvm输出到到环境变量（看起来仅仅安装clang是不够的，因为插件提示没有language server，故使用系统的llvm了
 
+#if you can sudo, run the following commands
+apt-get install nodejs clang clangd npm #be carefull that clang and clangd should be the same version
+
 #与airline相关的配置，自行再查看Readme.md进行设置
 ```
 
