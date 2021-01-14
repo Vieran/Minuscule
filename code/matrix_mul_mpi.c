@@ -16,13 +16,17 @@ int main(int argc, char** argv) {
 	int rank, size;
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
+
 	int root = 0;
 	int job;
-
-	if (rank == root) {
+	if (rank == root)
 		job = row1 / size;
-		MPI_Bcast(&job, 1, MPI_INT, root, MPI_COMM_WORLD);
-	}
+	
+	MPI_Bcast(&job, 1, MPI_INT, root, MPI_COMM_WORLD);
+	MPI_Bcast(&row1, 1, MPI_INT, root, MPI_COMM_WORLD);
+	MPI_Bcast(&column1, 1, MPI_INT, root, MPI_COMM_WORLD);
+	MPI_Bcast(&row2, 1, MPI_INT, root, MPI_COMM_WORLD);
+	MPI_Bcast(&column2, 1, MPI_INT, root, MPI_COMM_WORLD);
 
 	double (*matrix1)[column1] = (double (*)[column1])malloc(job * column1 * sizeof(double));
 	double (*matrix2)[column2] = (double (*)[column2])malloc(row2 * column2 * sizeof(double));
@@ -72,11 +76,12 @@ int main(int argc, char** argv) {
 		MPI_Status status;
 		//create matrix to receive data;
     	double (* matrix4)[column2] = (double (*)[column2])malloc(job * column2 * sizeof(double));
-		while(MPI_Recv(&*matrix4, job * column1, MPI_DOUBLE, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status)) {
-			//put data into matrix3 according to the send rank
-			for (int i = status.MPI_TAG, i_i = 0; i < row1; i += job, i_i++)
+		//put data into matrix3 according to the send rank
+		for (int i = 1; i < size; i++) {
+			MPI_Recv(&*matrix4, job * column1, MPI_DOUBLE, i, i, MPI_COMM_WORLD, &status);
+			for (int j = 0; j < job; j ++)
 				for (int k = 0; k < column2; k++)
-					matrix3[i][k] = matrix4[i_i][k];
+					matrix3[i + j * job][k] = matrix4[j][k];
 		}
 		
 		end_t = MPI_Wtime();
