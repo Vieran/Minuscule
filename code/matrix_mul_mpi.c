@@ -85,7 +85,7 @@ int main(int argc, char** argv) {
 		}
 		
 		end_t = MPI_Wtime();
-    	printf("time = %lf", (double)(end_t - start_t)/CLOCKS_PER_SEC);
+    	printf("time = %lf", (double)(end_t - start_t));
     	free(matrix3);
 
 	} else {
