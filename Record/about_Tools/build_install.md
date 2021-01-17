@@ -40,12 +40,12 @@ make PREFIX=~/cyJ/WorkStation/openblas-0.3.12 install
 ### GGC
 
 ```bash
-#版本10.2.0
+#版本9.3.0
 #到GitHub找到mirror后下载/找一个镜像源下载，然后解压
 
 #进入解压后的文件夹并安装相关的依赖
-cd gcc-10.2.0
-contrib/download_prerequisites
+cd gcc-9.3.0
+contrib/download_prerequisites #如果显示依赖无法下载（大概率是墙的问题），就把这个脚本里面的base_url改成一个镜像即可
 
 #编译安装
 mkdir build

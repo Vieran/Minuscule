@@ -178,8 +178,12 @@ gcc -w yyy.c -o yyy.x #不输出警告信息
 
 update-alternatives #可以使用这个命令管理Linux上不同版本的软件，man可查看详情
 
-#使用man可用查看c语言函数的用法
+#使用man可用查看c语言函数的用法（若没有MPI的函数，可以用apt搜索包然后安装上就可以了
 man printf
+apt search <package name>
+
+#命令行中向上/下翻页
+shift+page up/down
 ```
 
 [求两个Linux文本文件的交集、差集、并集](https://www.cnblogs.com/thatsit/p/6657993.html)、[diff不同输出格式的区别](https://www.cnblogs.com/wangqiguo/p/5793448.html#_label4)
@@ -196,10 +200,16 @@ man printf
    #!/bin/sh
    APPS=${HOME}/cyJ/WorkStation
    MPI=${APPS}/openmpi
-   BLAS=${APP}/openblas/opt/OpenBLAS
-   export PATH=${MPI}/bin:$PATH
-   export PATH=${APPS}/openmpi/bin:$PATH
+   BLAS=${APP}/openblas
+   
    #环境变量以:分隔，放在前面的优先搜索，搜索到了就停止，所以一般新的放前面
+   export PATH=${MPI}/bin:$PATH
+   export PATH=${BLAS}/bin:$PATH
+   export LIBRARY_PATH=${MPI}/lib:$LIBRARY_PATH
+   export LD_LIBRARY_PATH=${MPI}/lib:$LD_LIBRARY_PATH
+   export CPLUS_INCLUDE_PATH=${MPI}/include:$CPLUS_INCLUDE_PATH
+   export C_INCLUDE_PATH=${MPI}/include:$C_INCLUDE_PATH
+   export MANPATH=${MPI}/share:$MANPATH #配置man手册（man3是函数的定义和使用方法
    ```
 
 3. 使用CTRL+r可以搜寻执行过的指令
