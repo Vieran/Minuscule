@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <time.h>
 #define N 5
 #define DEVIATION 1E-9
 
@@ -71,10 +72,18 @@ void minus_r_aAp(double rk[N], double ak, double A[N][N], double pk[N]) {
     }
 }
 
+//initialize matrix a by use a * a(T) + 
+void initialize_spdm(double a[N][N]) {
+	srand(time(NULL));
+	for (int i = 0; i < N; i++)
+		for (int k = 0; k < N; k++)
+			a[i][k] = rand() / RAND_MAX;
+}
+
 int main(int argc, char** argv) {
     //matrix A must be a symmetric positive definite matrix
-    //how to initialize the matrix a ?
 	double a[N][N], b[N], x[N], ax[N];
+	initialize_spdm(a);
 
 	//initialize x
 	for (int i = 0; i < N; i++)
@@ -99,7 +108,7 @@ int main(int argc, char** argv) {
     b_minus_ax(b, ax, rk);
     memcpy(pk, rk, N * sizeof(double));
 
-    double ak, bk, tmp; //tmp for rk-1
+    double ak, bk, tmp; //tmp for rk-1(T)*rk-1
 	while(1) {
             tmp = multi_self_trans(rk);
             ak = tmp / multi_pT_a_p(pk, a);
