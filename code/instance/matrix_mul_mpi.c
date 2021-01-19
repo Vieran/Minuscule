@@ -3,10 +3,10 @@
 #include <time.h>
 #include <mpi.h>
 
-#define row1 10
-#define row2 10
-#define column1 10
-#define column2 10
+#define row1 10000
+#define row2 10000
+#define column1 10000
+#define column2 10000
 
 //print the matrix
 void dis_matrix(double **matrix, int row, int column) {
@@ -64,9 +64,9 @@ int main(int argc, char** argv) {
 		end_t = MPI_Wtime();
     	printf("time = %lf", (double)(end_t - start_t));
 
-		dis_matrix(matrix1, row1, column1);
-		dis_matrix(matrix2, row2, column2);
-		dis_matrix(matrix3, row1, column2);
+		//dis_matrix(matrix1, row1, column1);
+		//dis_matrix(matrix2, row2, column2);
+		//dis_matrix(matrix3, row1, column2);
 	} else {
 		double matrix1[job][column1], matrix2[row2][column2], matrix3[job][column2];
 		//receive matrix2 and part of matrix1
