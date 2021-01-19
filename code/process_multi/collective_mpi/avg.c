@@ -22,6 +22,7 @@ MPI_Gather(
     MPI_Datatype recv_datatype,
     int root,
     MPI_Comm communicator)
+//the send_data and the recv_data can not be the same, you can use MPI_IN_PLACE to replace the buffer
 */
 
 
