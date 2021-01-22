@@ -32,20 +32,28 @@ git help workflows
 
 
 
-**切换分支**
+**分支**
 
 ```bash
 #查看目前所在的分支以及远程的分支
-git branch -a #当前分支前面带*
+git branch -a #显示所有分支，当前分支前面带*
 git branch #显示本地存在的分支
 
 #切换到远程的newhack分支，并且在本地命名为xxx
-git checkout -b xxx origin/newhack
+#git checkout -b xxx origin/newhack
+#切换到xxx分支
+git switch xxx
+
+#切换到创建新的分支xxx
+git switch -c xxx
 
 #删除本地xxx分支
 git branch -d xxx
 
-#关于stash（待查证
+#将branchname分支和当前分支进行合并
+git merge branchname
+
+#关于stash
 git stash #备份当前的工作区的内容，让工作区保证和上次提交的内容一致；同时将当前的工作区内容保存到Git栈中
 git pull #保持和远程项目同步
 git stash pop #从git栈中读取上次保存的内容，恢复工作区的相关内容
@@ -56,7 +64,7 @@ git reset --hard #放弃本地修改
 
 
 
-**gitignore文件**
+**.gitignore文件**
 
 ```bash
 #在根目录下生成文件并写入信息
@@ -80,5 +88,22 @@ git add .
 git commit -m "rebuild this repo"
 git remote add origin <github_repo_url>
 git push -f -u origin master
+```
+
+
+
+### 撤销修改
+
+```bash
+#撤销工作区某文件的修改
+git checkout -- filename
+
+#撤销暂存区某文件的修改
+git reset HEAD filename
+
+#工作区：add之前
+#贮藏区：把工作区的内容stash
+#暂存区：把工作区的内容add但未commit
+#本地仓库：把暂存区commit后
 ```
 

@@ -42,33 +42,13 @@ module purge #清空模块
 squeue
 scancel yyy
 
-#写脚本通过sbatch提交作业，详细的可以参考~/Test/Test1/brief.txt的内容
+#写脚本通过sbatch提交作业
 sbatch ./xxx.slurm
+#sbatch脚本将jobname附加到输出文件，且将输出文件放到指定的文件夹./outputfile/%j_%x.out（j是jobid，x是jobname
 
 #SCP传输本地文件目录xxx到服务器上的yyy（服务器到本地只需要将两个参数反过来就可以
 #注意：都是在本地的shell输入下列命令，这样才能找到本地文件！
 scp -r xxx xyz@202.111.111.111:~/cyJ/work_station/yyy
-
-#sbatch脚本将jobname附加到输出文件，且将输出文件放到指定的文件夹./outputfile/%j_%x.out（j是jobid，x是jobname
-```
-
-
-
-### 编译安装
-
-```bash
-#检查相关依赖，设置安装路径（不需要cc或者gcc
-./configure --prefix=/path/to/destdir
-
-#从Makefile中读取指令然后编译
-make
-
-#从Makefile中读取指令然后安装（可以指定路径
-make install
-make DESTDIR=/install/directory install
-
-#静态库是编译的时候嵌入，编译一旦通过，即使.a文件不在了，也可以正常跑程序
-#如果是动态库，编译的时候并不会把它放进文件内，每次运行的时候会再次寻找.so文件
 ```
 
 
@@ -110,41 +90,6 @@ fdisk -l
 
 
 
-### vim
-
-```bash
-#vim的全局搜索：在当前文件夹下查找所有的包含xxx的文件，并且设置可以跳转
-:vim /xxx/** | copen
-
-#不退出vim，直接跳转到命令行执行命令
-:!export | grep PATH #相当于在命令行执行export | grep PATH
-
-#命令模式下
-u #撤销
-CTRL+r #恢复撤销
-x #删除当前光标所在位置的单个字符
-r #按下r，然后输入新字符来替换光标所在处的单个字符（如果是R则相当于Windows下的insert，直到按esc退出
-yw #复制一个单词
-y$ #复制到行尾
-
-#强大的g命令，全局的
-:g
-
-#查找和替换
-:s/old/new/ #跳到old第一次出现的地方，并用new替换
-:s/old/new/g #替换所有old
-:n,ms/old/new/g #替换行号n和m之间所有old
-:%s/old/new/g #替换整个文件中的所有old
-
-#跳转
-CTRL+w hjkl #窗格间跳转，hjkl分别是左上下右
-CTRL+] #跳转到函数定义处（前提是生成了tags
-CTRL+o #向后跳到后几次光标位置（跳到函数之后，再输入这个就可以跳回原处
-CTRL+i #向前跳到前几次光标位置
-```
-
-
-
 ### 基础工具相关操作
 
 ```bash
@@ -169,7 +114,12 @@ python test.py | tee -a xxx #同时输出到屏幕和文件xxx（追加
 #反汇编工具
 objdump -d xxx.o #将可执行文件xxx.o反汇编成为汇编语言
 
-ulimit #man bash查看详情
+#运行mpi和openmp任务的时候，不限制内存大小
+mpirun –hostfile <hosts_file> | -np <number_of_threads> bash -c "ulimit -s unlimited && our_binary_to_be_executed"
+#或者把下列语句放入.bashrc（但是这个参数$PS1是什么？
+if [ -z "$PS1" ]; then
+       ulimit -s unlimited
+fi
 
 #使用watch每隔10s查看squeue的执行状态
 watch -n 10 squeue

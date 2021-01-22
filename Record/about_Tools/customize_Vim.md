@@ -200,8 +200,151 @@ ctags -R
 Plug 'majutsushi/tagbar'
 nnoremap <silent><F10> :TagbarToggle<CR> #F10显示定义
 nnoremap <silent><F11> <C-]> #使用F11替代CTRL+]跳转到函数定义
+nnoremap <silent><F11> <C-o> #使用F12替代CTRL+o返回上一次光标处
 
 #查看使用帮助手册（暂时还没有去学很多这个相关的使用
 :help tagbar
+```
+
+
+
+## Vim的使用
+
+```bash
+#vim的全局搜索：在当前文件夹下查找所有的包含xxx的文件，并且设置可以跳转
+:vim /xxx/** | copen
+
+#不退出vim，直接跳转到命令行执行命令
+:!export | grep PATH #相当于在命令行执行export | grep PATH
+
+#命令模式下
+u #撤销
+CTRL+r #恢复撤销
+x #删除当前光标所在位置的单个字符
+r #按下r，然后输入新字符来替换光标所在处的单个字符（如果是R则相当于Windows下的insert，直到按esc退出
+yw #复制一个单词
+y$ #复制到行尾
+w #以单词为间隔向右跳转
+b #以单词为间隔向左跳转
+CTRL+v #整块选中
+G #跳转到文件最后一行
+0 #跳转到本行的开头
+$ #跳转到本行的结尾
+CTRL+f #向前翻页（forward
+CTRL+u #向后翻页（upword
+
+#强大的g命令，全局的
+:g
+
+#查找和替换
+:s/old/new/ #跳到old第一次出现的地方，并用new替换
+:s/old/new/g #替换所有old
+:n,ms/old/new/g #替换行号n和m之间所有old
+:%s/old/new/g #替换整个文件中的所有old
+f<字母> #在当前行向右查找该字母第一次出现的地方，在按;查找当前行下一次出现的地方
+F<字母> #在当前行向左查找该字母第一次出现的地方，在按;查找当前行下一次出现的地方
+
+#跳转
+CTRL+] #跳转到函数定义处（前提是生成了tags；如果定义了快捷键，可以直接用快捷键跳转，比如F11
+CTRL+o #向后跳到后几次光标位置（跳到函数之后，再输入这个就可以跳回原处
+CTRL+i #向前跳到前几次光标位置
+
+#分屏
+#打开文件的时候使用-On（竖直）或者-on（水平）分屏，n是窗口数量
+CTRL+w whjkl #窗格间跳转，hjkl分别是左上下右，w是轮流切换
+:vsplit filename #竖直分屏打开文件，可以简写vsp（水平分屏是split，简写sp
+CTRL+w v #竖直分屏打开当前文件（水平分屏是s
+CTRL+w =+- #=设置所有屏幕相同高度，+增加当前屏幕高度，-减小当前屏幕高度
+CTRL+w c #关闭当前屏幕
+map si :set splitright<CR>:vsplit<CR> #快捷键si竖直向右分屏
+map sn :set nosplitright<CR>:vsplit<CR> #快捷键sn竖直向左分屏
+
+#查阅函数/变量的作用
+:h <函数名/变量名>
+```
+
+
+
+## Vim脚本
+
+```bash
+set number
+set relativenumber
+set tabstop=4
+set shiftwidth=4
+set autoindent
+set scrolloff=4
+
+call plug#begin()
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'preservim/nerdtree'
+Plug 'vim-airline/vim-airline'
+Plug 'mileszs/ack.vim'
+Plug 'junegunn/fzf'
+Plug 'majutsushi/tagbar'
+Plug 'dense-analysis/ale'
+
+call plug#end()
+
+"=============================================================================================
+"---------------------------------------FOR PLUGINS-------------------------------------------
+"=============================================================================================
+
+"set shortcut for nerdtree
+nnoremap <C-n> :NERDTree<CR>
+
+"set shorcut for ack and make not jump to the first result automatically
+cnoreabbrev Ack Ack!
+nnoremap <Leader>a :Ack!<Space>
+
+"set airline for coc.nvim and ale
+set statusline^=%{coc#status()}
+let g:airline#extensions#coc#enabled = 1
+let g:airline#extensions#ale#enabled = 1
+
+"==============================================coc.nvim settings=========================================
+let g:coc_global_extensions = ['coc-clangd', 'coc-vimlsp']
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+"=========================================end coc.nvim settings==========================================
+
+
+"setting for ale
+let g:ale_disable_lsp = 1
+"let g:ale_sign_column_always = 1
+"let g:ale_sign_error = '>>'
+"let g:ale_sign_warning = '--'
+"let g:ale_lint_on_save = 1
+
+"setting for tagbar
+nnoremap <silent><F10> :TagbarToggle<CR>
+nnoremap <silent><F11> <C-]>
+nnoremap <silent><F12> <c-o>
+let g:tagbar_autofocus = 1 "this make tagbar focus when open
 ```
 

@@ -12,8 +12,6 @@
 
 
 
-## C++
-
 **fork/join并行执行模式**:并行执行的程序要全部结束后才会运行后面非并行部分的代码 
 
 #### 基本知识
@@ -91,7 +89,6 @@ int main(int argc, char* argv[])
 		#pragma omp section
 		printf("Section 4 ThreadId = %d\n", omp_get_thread_num());
 	}
-	return 0;
     
 	return 0;
 }
