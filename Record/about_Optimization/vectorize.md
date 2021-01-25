@@ -46,3 +46,4 @@ _mm512_storeu_pd((*(*(b+k)+j)+i), b000);  //将结果保存回到b[k][j][i]中
 ```
 
 [知乎上对AVX编程的简单介绍](https://zhuanlan.zhihu.com/p/94649418)
+
