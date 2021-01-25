@@ -17,6 +17,9 @@
 > **C**ompute **U**nified **D**evice **A**rchitecture简称[CUDA](https://baike.baidu.com/item/CUDA)，统一计算架构，是由NVIDIA推出的一种集成技术（或者说是一种编程模型，给各种语言提供了编程的接口，使之可以构建基于GPU计算的应用程序
 >
 > **H**eterogeneous **C**omputing简称HC，异构计算，使用不同类型[指令集](https://zh.wikipedia.org/wiki/指令集)和体系架构的计算单元组成系统的计算方式（GPU并非独立运行的计算平台，需要与CPU协同工作，可以看成是CPU的协处理器，因此所说的GPU并行计算，其实是指的基于CPU+GPU的异构计算架构
+>
+> 1. GPU的执行速度远低于CPU，但是GPU的优势是[显存带宽](https://baike.baidu.com/item/%E6%98%BE%E5%AD%98%E5%B8%A6%E5%AE%BD)高（多个执行单元
+> 2. GPU适合执行并行计算
 
 [知乎：cpu和gpu的区别是什么](https://www.zhihu.com/question/19903344)*这里面提到了CPU和GPU分别适合做什么样的工作*
 
@@ -103,10 +106,6 @@ int main() {
 
 	return 0;
 }
-
-//执行nvcc a.cu -o a.x即可得到可执行程序
-//./a.x运行
-//nvprof ./a.x进行profile
 ```
 
 [知乎：CUDA编程入门极简教程](https://zhuanlan.zhihu.com/p/34587739)*讲得非常通俗易懂*
@@ -124,7 +123,20 @@ int main() {
 nvcc --version
 nvidia-smi
 
-#关于GPU的模型和计算
+#.cu文件编译和运行（ptx指令是cuda程序编译出来的汇编码
+nvcc a.cu -o a.x
+./a.x
+
+#命令行下进行profile，并把结果输出到文件xxx
+nvprof ./a.x &>xxx
+
+#图形界面进行profile（两种工具，后者是新的，更推荐使用
+nvvp
+nsight
 ```
 
 [知乎：关于CUDA的一些概念](https://zhuanlan.zhihu.com/p/91334380)
+
+[是时候用nsight分析优化工具了](https://cloud.tencent.com/developer/article/1468566)
+
+[NVVP toolkit doc](https://docs.nvidia.com/cuda/profiler-users-guide/index.html)
