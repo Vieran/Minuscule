@@ -6,7 +6,7 @@
 
 > Vectorization is the more limited process of converting a computer program from a scalar implementation, which processes a single pair of operands at a time, to a vector implementation which processes one operation on multiple pairs of operands at once.																																															--wikipedia
 >
-> 简而言之，就是一条指令操作多个数据，可以认为向量化是指令级的数据并行
+> 简而言之，就是一条指令操作多个数据（SIMD），可以认为向量化是指令级的数据并行
 
 
 

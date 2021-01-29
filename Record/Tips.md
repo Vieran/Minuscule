@@ -49,6 +49,9 @@ sbatch ./xxx.slurm
 #SCP传输本地文件目录xxx到服务器上的yyy（服务器到本地只需要将两个参数反过来就可以
 #注意：都是在本地的shell输入下列命令，这样才能找到本地文件！
 scp -r xxx xyz@202.111.111.111:~/cyJ/work_station/yyy
+
+#在桌面环境下，使用ssh -X可以进入可开启图形界面的命令行
+ssh -X vol08
 ```
 
 

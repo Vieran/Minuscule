@@ -5,6 +5,7 @@
 - [x] GPU和CPU的区别
 - [x] GPU如何执行运算工作（CUDA程序运行的大致流程
 - [x] CUDA编程基础
+- [ ] GPU结构
 
 [CUDA TOOLKIT DOC](https://docs.nvidia.com/cuda/index.html)
 
@@ -33,7 +34,7 @@
 >
 > 3. CUDA程序中包含host程序和device程序（`host`指代CPU及其内存，`device`指代GPU及其内存），分别在CPU和GPU上运行
 >
-> 4. GPU的一个核心组件是`SM(Streaming Multiprocessor)`，SM的基本执行单元是`线程束(wraps)`；线程束包含很多个线程（白皮书），这些线程执行相同的指令（`SMIT(Single Instruction Multiple Thread)`），但是它们拥有单独的指令地址计数器和寄存器状态，也有自己独立的执行路径，所以尽管线程束中的线程同时从同一程序地址执行，但是可能具有不同的行为
+> 4. GPU的一个核心组件是`SM(Streaming Multiprocessor)`，SM的基本执行单元是`线程束(warps)`；线程束包含很多个线程（白皮书），这些线程执行相同的指令（`SMIT(Single Instruction Multiple Thread)`），但是它们拥有单独的指令地址计数器和寄存器状态，也有自己独立的执行路径，所以尽管线程束中的线程同时从同一程序地址执行，但是可能具有不同的行为
 > 5. 每个线程块必须在一个SM上执行（单个SM的资源有限，这导致线程块中的线程数是有限制的，白皮书可查），线程块在SM上进一步被划分为多个线程束
 > 6. 每个线程都调用kernel（核）函数，`<<<grid, block>>>`指定线程数量为grid * block（其实就是grid个block，block个线程数），逻辑上这些线程是并行的，但是在物理层受到了SM的限制
 
@@ -116,6 +117,12 @@ int main() {
 
 
 
+## GPU结构
+
+1. GPU是为追求高带宽（并行）而使用了集成显存，因而显存较小
+
+
+
 ## 其他
 
 ```bash
@@ -129,6 +136,7 @@ nvcc a.cu -o a.x
 
 #命令行下进行profile，并把结果输出到文件xxx
 nvprof ./a.x &>xxx
+nvprof -o xxx.nvvp ./demo #这也输出的文件在图形界面可以看
 
 #图形界面进行profile（两种工具，后者是新的，更推荐使用
 nvvp

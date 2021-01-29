@@ -29,3 +29,10 @@
 | 管理者-工作者模式（manager-worker） | 简单的自适应网格细化 | 光环交换（holo exchange）   | 有限差分、有限元偏微分方程求解器 |
 | 易并行（embarrassingly parallel）   | 蒙特卡洛             |                             |                                  |
 
+
+
+## 并行的工具
+
+1. MPI（多进程通信
+2. OpenMP（多线程
+3. CUDA（GPU多线程
