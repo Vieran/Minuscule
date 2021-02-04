@@ -35,7 +35,7 @@
 > 3. CUDA程序中包含host程序和device程序（`host`指代CPU及其内存，`device`指代GPU及其内存），分别在CPU和GPU上运行
 >
 > 4. GPU的一个核心组件是`SM(Streaming Multiprocessor)`，SM的基本执行单元是`线程束(warps)`；线程束包含很多个线程（白皮书），这些线程执行相同的指令（`SMIT(Single Instruction Multiple Thread)`），但是它们拥有单独的指令地址计数器和寄存器状态，也有自己独立的执行路径，所以尽管线程束中的线程同时从同一程序地址执行，但是可能具有不同的行为
-> 5. 每个线程块必须在一个SM上执行（单个SM的资源有限，这导致线程块中的线程数是有限制的，白皮书可查），线程块在SM上进一步被划分为多个线程束
+> 5. 每个线程块必须在一个SM上执行（单个SM的资源有限，这导致线程块中的线程数是有限制的，白皮书可查），线程块在SM上进一步被划分为多个线程束；一个线程块拥有一片共享的内存（shared memory）
 > 6. 每个线程都调用kernel（核）函数，`<<<grid, block>>>`指定线程数量为grid * block（其实就是grid个block，block个线程数），逻辑上这些线程是并行的，但是在物理层受到了SM的限制
 
 
@@ -44,8 +44,9 @@
 
 *这里介绍的是CUDA C/CPP*
 
-> 1. 声明核函数：\__global__
+> 1. 声明核函数：\__global__可以host端（cpu端）调用
 > 2. 调用核函数：kernel_fun<<< grid, block >>>(prams...)
+> 3. 设备函数：\__device__只能在device端调用（不能在cpu端调用）
 
 ```c
 #看一小段代码理解一些cuda编程
@@ -111,9 +112,17 @@ int main() {
 
 [知乎：CUDA编程入门极简教程](https://zhuanlan.zhihu.com/p/34587739)*讲得非常通俗易懂*
 
-[CUDA编程之快速入门](https://www.cnblogs.com/skyfsm/p/9673960.html)
+[CUDA编程之快速入门](https://www.cnblogs.com/skyfsm/p/9673960.html)*讲到非常详细*
 
 [CUDA tutorial](https://cuda-tutorial.readthedocs.io/en/latest/)
+
+[CUDA C++ Extension 中译版](https://www.cnblogs.com/thisjiang/p/12961635.html)
+
+[CUDA中的unified memory](https://zhuanlan.zhihu.com/p/82651065)
+
+[CUD统一内存管理](https://developer.nvidia.com/zh-cn/blog/unified-memory-cuda-beginners/)
+
+[device和kernel函数的区别](https://stackoverflow.com/questions/12373940/difference-between-global-and-device-functions)
 
 
 

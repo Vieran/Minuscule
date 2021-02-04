@@ -2,7 +2,7 @@
 
 *Linux下的正则表达式*
 
-## 类型
+## 分类
 
 > 正则表达式是通过正则表达式引擎（regular expression engine）实现的
 >
@@ -88,5 +88,43 @@ echo "baaet" | gawk '/b[ae]+t/{print $0}' #输出：baaet
 echo "bt" | gawk --re-interval '/be{1}t/{print $0}' #无输出
 echo "bet" | gawk --re-interval '/be{0,3}t/{print $0}' #输出：bet
 
+#|表示OR逻辑
+echo "The cat is asleep" | gawk '/cat|dog/{print $0}' #输出：The cat is asleep
+echo "He has a hat." | gawk '/[ch]at|dog/{print $0}' #输出：He has a hat.
+
+#()进行分组
+echo "Saturday" | gawk '/Sat(urday)?/{print $0}' #输出：Saturday
+echo "bat" | gawk '/(c|b)a(b|t)/{print $0}' #输出bat
+echo "tab" | gawk '/(c|b)a(b|t)/{print $0}' #无输出
 ```
 
+
+
+## 实例
+
+### 目录文件统计
+
+```bash
+#用换行符分隔输出环境变量
+echo $PATH | sed 's/:/\n/g'
+
+#实例脚本
+mypath=$(echo $PATH | sed 's/:/ /g')
+count=0
+for directory in $mypath; do
+	check=$(ls $directory)
+	for item in $check; do
+		count=$[ $count + 1 ]
+	done
+	echo "$directory - $count"
+	count=0
+done
+```
+
+### 验证电话号码
+
+*此例子在书中详细叙述，讲解了如何从左到右一步步构造正则表达式，详细参考P456/621*
+
+### 解析邮件地址
+
+*此例子在书中详细叙述，讲解了如何从左到右一步步构造正则表达式，详细参考P458/621*

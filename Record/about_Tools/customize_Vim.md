@@ -232,6 +232,9 @@ G #跳转到文件最后一行
 $ #跳转到本行的结尾
 CTRL+f #向前翻页（forward
 CTRL+u #向后翻页（upword
+ggVGyy #复制整个文件
+yaw #复制一个单词（这个a可以换做i
+vawp #选中一个单词，粘贴替换（这个a可以换做i
 
 #强大的g命令，全局的
 :g
@@ -251,6 +254,7 @@ CTRL+i #向前跳到前几次光标位置
 
 #分屏
 #打开文件的时候使用-On（竖直）或者-on（水平）分屏，n是窗口数量
+vim -O file1 file2
 CTRL+w whjkl #窗格间跳转，hjkl分别是左上下右，w是轮流切换
 :vsplit filename #竖直分屏打开文件，可以简写vsp（水平分屏是split，简写sp
 CTRL+w v #竖直分屏打开当前文件（水平分屏是s

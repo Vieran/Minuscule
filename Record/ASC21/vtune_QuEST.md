@@ -12,7 +12,7 @@ cd /lustre/home/acct-hpc/asc/cyJ/asc21/QuEST-2.1.0/build_random
 source ~/cyJ/script/intel-parallel-studio_env.sh
 vtune #检查vtune是否加载，查看可选的参数
 
-#编译的时候
+#编译的时候加-g选项
 
 #执行vtune分析hpc performance并将结果存储到result文件夹下
 vtune -collect hpc-performance -result-dir result -quiet ./random.x

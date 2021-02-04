@@ -101,9 +101,20 @@ git checkout -- filename
 #撤销暂存区某文件的修改
 git reset HEAD filename
 
+#回退到某一次commit
+git reset commit_id #可以加--hard选项
+git stash #把当前的修改先存起来（在没有--hard选项的时候这么写是有用的
+git stash list #查看暂存区的内容
+git push origin HEAD --force #强制把当前的分支推送上去，忽略冲突
+git stash [apply|pop] stash@{?} #恢复?的暂存区内容
+git stash drop stash@{?} #删除?的暂存区内容
+
 #工作区：add之前
 #贮藏区：把工作区的内容stash
 #暂存区：把工作区的内容add但未commit
 #本地仓库：把暂存区commit后
 ```
 
+[某博客：git stash 用法](https://www.cnblogs.com/tocy/p/git-stash-reference.html)
+
+[简书：git stash命令的使用](https://www.jianshu.com/p/e9764e61ef90)

@@ -106,6 +106,12 @@ python gdb.Breakpoint('7') #在第7行设置断点（这个命令看起来并不
 ulimit -c unlimited #不限制core dump文件的大小（如果要限制，unlimited改为对应的文件大小，单位是kb
 ulimit -c #检查core dump是否开启（返回值为0表示没有开启，执行上述命令之后返回值有关为unlimited
 
+#GPU下调试
+export CUDA_ENABLE_COREDUMP_ON_EXCEPTION=1
+export CUDA_ENABLE_USER_TRIGGERED_COREDUMP=1
+(cuda-gdb) target core core.cpu core.cuda #同时看cpu和gpu的core文件
+(cuda-gdb) target cudacore core.cuda.localhost.1234 #仅仅加载gpu的core文件
+
 #修改/proc/sys/kernel/core_uses_pid文件可以让生成core文件名自动加上pid号
 echo 1 > /proc/sys/kernel/core_uses_pid
 
@@ -202,5 +208,7 @@ thread apply all command #所有线程都执行指令
 [使用gdb的100个小技巧](https://wizardforcel.gitbooks.io/100-gdb-tips/content/index.html)
 
 [十五分钟教会gdb](https://www.bilibili.com/video/BV1KW411r7BR?from=search&seid=67360422147624704)
+
+[cuda-gdb](https://docs.nvidia.com/cuda/cuda-gdb/index.html)
 
 *多线程和多进程调试的内容比较复杂一点，后续用到的时候再根据需要去查*
