@@ -106,7 +106,7 @@ python gdb.Breakpoint('7') #在第7行设置断点（这个命令看起来并不
 ulimit -c unlimited #不限制core dump文件的大小（如果要限制，unlimited改为对应的文件大小，单位是kb
 ulimit -c #检查core dump是否开启（返回值为0表示没有开启，执行上述命令之后返回值有关为unlimited
 
-#GPU下调试
+#GPU下调试（OptiX/RTCore需要编译时候加-lineinfo，其他的加-g或者-G
 export CUDA_ENABLE_COREDUMP_ON_EXCEPTION=1
 export CUDA_ENABLE_USER_TRIGGERED_COREDUMP=1
 (cuda-gdb) target core core.cpu core.cuda #同时看cpu和gpu的core文件

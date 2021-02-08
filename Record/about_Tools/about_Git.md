@@ -24,6 +24,10 @@ git log --oneline #简单查看commit信息
 git log --online --graph #查看分支信息
 #其他参数：--author参数查看指定用户的记录；--since和--before，--until和--after指定日期查看；--reverse和--topo-order逆向查看；--stat详细显示每次commit中修改的文件的内容；--pretty=xxx改变显示格式为xxx
 
+#关联远程分支和取消关联
+git remote add origin <url>
+git remote remove origin
+
 #查看团队协作相关的指令
 git help workflows
 
@@ -87,7 +91,7 @@ git init
 git add .
 git commit -m "rebuild this repo"
 git remote add origin <github_repo_url>
-git push -f -u origin master
+git push -f -u origin local_name:remote_name #远程创建分支remote_name并将本地local_name分支推送到远程remote_name
 ```
 
 
@@ -118,3 +122,14 @@ git stash drop stash@{?} #删除?的暂存区内容
 [某博客：git stash 用法](https://www.cnblogs.com/tocy/p/git-stash-reference.html)
 
 [简书：git stash命令的使用](https://www.jianshu.com/p/e9764e61ef90)
+
+
+
+### 修改commit信息
+
+```bash
+git rebase #更多细节查看man git rebase
+git rebase <branch_name> -i #开启交互模式
+```
+
+[修改git提交历史](https://www.jianshu.com/p/0f1fbd50b4be)

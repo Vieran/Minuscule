@@ -28,6 +28,8 @@
 
 ## CUDA编程概念
 
+[CUDA Toolkit Document](https://docs.nvidia.com/cuda/index.html)
+
 > 1. 异构模型，需要CPU和GPU协同工作
 >
 > 2. CUDA本质是多线程（每个线程会分配唯一的线程ID，这个ID值可以通过核函数的内置变量`threadIdx`来获得）
@@ -116,19 +118,9 @@ int main() {
 
 [CUDA tutorial](https://cuda-tutorial.readthedocs.io/en/latest/)
 
-[CUDA C++ Extension 中译版](https://www.cnblogs.com/thisjiang/p/12961635.html)
-
 [CUDA中的unified memory](https://zhuanlan.zhihu.com/p/82651065)
 
 [CUD统一内存管理](https://developer.nvidia.com/zh-cn/blog/unified-memory-cuda-beginners/)
-
-[device和kernel函数的区别](https://stackoverflow.com/questions/12373940/difference-between-global-and-device-functions)
-
-
-
-## GPU结构
-
-1. GPU是为追求高带宽（并行）而使用了集成显存，因而显存较小
 
 
 
@@ -142,6 +134,7 @@ nvidia-smi
 #.cu文件编译和运行（ptx指令是cuda程序编译出来的汇编码
 nvcc a.cu -o a.x
 ./a.x
+nvcc -arch=sm_70 -rdc=true filename.cu -o filename.x #使用global函数调用global函数的时候，需要需要设置算力（-arch=sm_70是-arch=compute_70 -code=compute_70,sm_70的缩写
 
 #命令行下进行profile，并把结果输出到文件xxx
 nvprof ./a.x &>xxx
@@ -150,10 +143,10 @@ nvprof -o xxx.nvvp ./demo #这也输出的文件在图形界面可以看
 #图形界面进行profile（两种工具，后者是新的，更推荐使用
 nvvp
 nsight
+
+#kernel函数调用kernel函数：dynamic parallelism
 ```
 
 [知乎：关于CUDA的一些概念](https://zhuanlan.zhihu.com/p/91334380)
 
 [是时候用nsight分析优化工具了](https://cloud.tencent.com/developer/article/1468566)
-
-[NVVP toolkit doc](https://docs.nvidia.com/cuda/profiler-users-guide/index.html)

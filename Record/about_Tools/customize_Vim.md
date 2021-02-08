@@ -78,6 +78,13 @@ make install
 #if you can sudo, run the following commands
 apt-get install nodejs clang clangd npm #be carefull that clang and clangd should be the same version
 
+#clangd经常崩溃，不好用，换用ccls
+git clone --depth=1 --recursive https://github.com/MaskRay/ccls
+cd ccls
+cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/path/to/clang+llvm-xxx -DCMAKE_INSTALL_PREFIX=$HOME/cyJ/WorkStation/ccls -DCMAKE_CXX_COMPILER=g++ #最后这个g++得指定，需要支持c++17的
+cmake --build Release --target install #安装到前面设置的路径下，这样统一一点
+#最后将ccls所在的路径export到PATH中，按照官方给的文档进行配置
+
 #与airline相关的配置，自行再查看Readme.md进行设置
 ```
 
@@ -210,6 +217,8 @@ nnoremap <silent><F11> <C-o> #使用F12替代CTRL+o返回上一次光标处
 
 ## Vim的使用
 
+[vim help v8.2](http://vimcdoc.sourceforge.net/doc/help.html)
+
 ```bash
 #vim的全局搜索：在当前文件夹下查找所有的包含xxx的文件，并且设置可以跳转
 :vim /xxx/** | copen
@@ -235,6 +244,9 @@ CTRL+u #向后翻页（upword
 ggVGyy #复制整个文件
 yaw #复制一个单词（这个a可以换做i
 vawp #选中一个单词，粘贴替换（这个a可以换做i
+"xy3y #选中某一个（x）粘贴板，然后复制（这里是三行）
+"xp #选中某一个（x）粘贴板，然后粘贴其中内容
+:reg #查看所有粘贴板内容
 
 #强大的g命令，全局的
 :g
@@ -270,6 +282,10 @@ map sn :set nosplitright<CR>:vsplit<CR> #快捷键sn竖直向左分屏
 :w !sudo tee % #本质是把当前内容存进这个文件
 :w <不需要管理员权限的目录> #然后再在命令行用sudo替换文件
 ```
+
+[vim粘贴板的使用](https://www.cnblogs.com/huahuayu/p/12235242.html)
+
+[vim命令大全](https://zhuanlan.zhihu.com/p/51440836)
 
 
 
