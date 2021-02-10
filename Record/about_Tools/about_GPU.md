@@ -122,6 +122,8 @@ int main() {
 
 [CUD统一内存管理](https://developer.nvidia.com/zh-cn/blog/unified-memory-cuda-beginners/)
 
+[CUDA中的shared memory](https://developer.nvidia.com/blog/using-shared-memory-cuda-cc/)
+
 
 
 ## 其他

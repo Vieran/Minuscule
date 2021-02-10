@@ -76,15 +76,15 @@ cd asc21-quest
 #切换到分支newhack
 git switch newhack
 
-#cpu版本编译（加载Intel套件
-CFLAGS=-g CC=icc ./configure random.c build_r #编译random.c生成的文件在build_r文件夹下
-CFLAGS=-g CC=icc ./configure GHZ_QFT.c build_g #编译GHZ_QFT.c生成的文件在build_g文件夹下
+#cpu版本编译（加载Intel套件，如果需要指定编译选项，请到configure文件中找到cmake参数写入
+CC=icc ./configure random.c build_r #编译random.c生成的文件在build_r文件夹下
+CC=icc ./configure GHZ_QFT.c build_g #编译GHZ_QFT.c生成的文件在build_g文件夹下
 
 #gpu版本编译（加载cuda，修改configure文件为nv_configure文件，修改如下
 #-cmake .. -DUSER_SOURCE="$SOURCEFN" -DVERBOSE_CMAKE=ON -DDISTRIBUTED=1
 #+cmake .. -DUSER_SOURCE="$SOURCEFN" -DGPU_COMPUTE_CAPABILITY=70 -DGPUACCELERATED=1
-#CFLAGS=-g ./nv_configure random.c nv_r
-#CFLAGS=-g ./nv_configure GHZ_QFT.c nv_r
+./nv_configure random.c nv_r
+./nv_configure GHZ_QFT.c nv_r
 
 #运行random算例（对于GHC_QFT.c，进入build_g即可，后面两个语句一样
 cd build_r #这里是进入编译random.c生成的文件夹
