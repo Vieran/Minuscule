@@ -33,6 +33,5 @@ int main() {
    
     end_t = clock();
     printf("time = %lf", (double)(end_t - start_t)/CLOCKS_PER_SEC);
-
     return 0;
 }

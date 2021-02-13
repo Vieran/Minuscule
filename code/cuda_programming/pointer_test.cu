@@ -14,8 +14,7 @@
 
 typedef struct gateobj {
 	void (*func)(struct gateobj*);
-//	void (*func2)(struct gateobj*, int);
-	int func2;
+	void (*func2)(struct gateobj*, int);
 	struct gateobj* next;
 } gateobj;
 
@@ -31,8 +30,12 @@ __global__ void func3() {
 	printf("func3\n");
 }
 
+__device__ void pointer_device(gateobj *g) {
+	printf("in pointer_device\n");
+}
 __global__ void handler(gateobj *g) {
 	printf("handler, call all funcs\n");
+	/*
 	switch(g->func2) {
 		case 1:
 			func1<<<2,1>>>(g);
@@ -44,16 +47,29 @@ __global__ void handler(gateobj *g) {
 			func3<<<2,4>>>();
 			break;
 	}
+	*/
+	g->func(g);
 	cudaDeviceSynchronize();
+	if (g->func == pointer_device)
+		printf("assert\n");
 }
 
+__host__ __device__ void get_func_p(gateobj *g) {
+	g->func = pointer_device;
+}
+
+void register_gate() {
+	gateobj *g;
+	cudaMallocManaged(&g, sizeof(gateobj));
+	get_func_p(g);
+}
 
 int main() {
 	printf("in cpu\n");
 	gateobj *g;
 	cudaMallocManaged(&g, sizeof(gateobj));
-	g->func = func1;
-	g->func2 = 1;
+	g->func = pointer_device;
+//	g->func2 = pointer_device;
 	handler<<<3,1>>>(g);
 	cudaDeviceSynchronize();
 	return 0;

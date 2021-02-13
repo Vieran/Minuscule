@@ -110,14 +110,14 @@ int main(int argc, char** argv) {
 
     double ak, bk, tmp; //tmp for rk-1(T)*rk-1
 	while(1) {
-            tmp = multi_self_trans(rk);
-            ak = tmp / multi_pT_a_p(pk, a);
-            add_x_ap(x, ak, pk, x);
-            minus_r_aAp(rk, ak, a, pk); 
-			if (assert_req0(rk))
-				break;
-            bk = multi_self_trans(rk) / tmp;
-            add_x_ap(rk, bk, pk, pk);
+		tmp = multi_self_trans(rk);
+		ak = tmp / multi_pT_a_p(pk, a);
+		add_x_ap(x, ak, pk, x);
+		minus_r_aAp(rk, ak, a, pk); 
+		if (assert_req0(rk))
+			break;
+		bk = multi_self_trans(rk) / tmp;
+		add_x_ap(rk, bk, pk, pk);
     }
 
 	printf("solved!\n");
