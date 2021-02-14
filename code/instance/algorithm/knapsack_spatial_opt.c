@@ -1,4 +1,4 @@
-/* knapsack problem --- room optimization version
+/* knapsack problem --- spatial optimization version
  * use only one dimension for dp, because max value only relates to dp[i-1][0~k-1]
  */
 
