@@ -54,3 +54,23 @@ gprof demo gmon.out <选项>
 ```
 
 [gprof的使用](https://www.cnblogs.com/youxin/p/7988479.html)
+
+
+
+## vtune
+
+*Intel-parallel-studio的工具*
+
+```bash
+#开启vtune
+source ~/cyJ/WorkStation/Intel-parallel-studio/parallel_studio_xe_2020/bin/psxevars.sh
+vtune-gui #开启图形化界面（需要在hpc studio或者可以开启图形界面的应用打开
+vtune #输出命令行参数帮助
+
+#初步尝试使用vtune分析一个程序的运行
+vtune -collect hotspots -result-dir result -quiet ./amg -problem 1 -P 1 1 1 -n 10 10 10 -printallstats
+
+#获得简要的分析总结
+vtune -help collect performance-snapshot #查看这条指令相关的手册
+```
+
