@@ -36,16 +36,24 @@ _mm<bit_width>_<name>_<data_type>;
 
 //例子
 #include <immintrin.h>
-__m512d b000 = _mm512_load_pd((*(*(b+k)+j)+i + 8)); //解引用取出b[k][j][i]
-b000 = _mm512_mul_pd(_c0_, a000);  //将_c0_和a000相加并赋值给b000
+__m512d b000 = _mm512_load_pd((*(*(b+k)+j)+i + 8));  //解引用取出b[k][j][i]
+__m512d _c0_ = _mm512_set1_pd(c0); //构造一个常量向量
+b000 = _mm512_mul_pd(_c0_, a000);  //将_c0_和a000相乘并赋值给b000
 b000 = _mm512_fmadd_pd(_c1_, a00_1, b000);  //将_c1_和a00_0相乘，加上b000并赋值给b000
 _mm512_storeu_pd((*(*(b+k)+j)+i), b000);  //将结果保存回到b[k][j][i]中
 
 //如果使用Intel编译器编译，需要使用mpiicc（类似于gcc
 //注意事项：循环内展开的层数需要注意，在循环计数器的变化那里需要座对应的修改
+
+//omp自动向量化
+#pragma omp simd
+//omp向量化同时并行
+#pragma omp parallel for simd
 ```
 
 [知乎上对AVX编程的简单介绍](https://zhuanlan.zhihu.com/p/94649418)
+
+[Microsoft Docs: omp simd](https://docs.microsoft.com/zh-cn/cpp/parallel/openmp/openmp-simd?view=msvc-160)
 
 
 
