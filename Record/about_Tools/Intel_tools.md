@@ -95,13 +95,10 @@ vtune -collect threading ./amg -problem 1 -P 1 1 1 -n 10 10 10 -printallstats #�
 
 
 
-## MPI
+## 其他
 
 ```bash
-#mpiexec、mpirun等的区别？
-#多节点运行程序，hostfile默认使用换行符进行分割
-#-f和-hostlist使用方法
-
-mpiexec.hydra #比mpirun更加高效
+mpiexec.hydra #Intel的mpiexec可能比一般的软件包的mpirun更加高效
+#Intel的mpi使用，详细见about_MPI.md
 ```
 

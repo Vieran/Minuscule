@@ -39,7 +39,7 @@ destroyQuESTEnv(Env);
 
 
 
-## 运行方式
+## 单节点运行
 
 ### 初始版本
 
@@ -91,4 +91,8 @@ cd build_r #这里是进入编译random.c生成的文件夹
 ./demo #运行可执行文件
 ./diff.sh #输出语句为identical即正确
 ```
+
+
+
+## 多节点运行
 
