@@ -96,3 +96,19 @@ cd build_r #这里是进入编译random.c生成的文件夹
 
 ## 多节点运行
 
+```python
+# 多进程时候可能需要进行通信的门（仅tGate、sGate和pauliZ不需要通信
+['hadamard',
+ 'pauliX',
+ 'pauliY',
+ 'rotateX',
+ 'rotateY',
+ 'rotateZ',
+ 'controlledNot',
+ 'controlledPauliY',
+ 'controlledRotateX',
+ 'controlledRotateY',
+ 'controlledRotateZ'
+]
+```
+

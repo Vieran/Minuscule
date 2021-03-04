@@ -82,10 +82,14 @@ cpuinfo
 mpirun -machinefile mf -genv I_MPI_PIN_PROCESSOR_LIST=0,3 -genv I_MPI_DEBUG=5 -n 16 ./demo
 
 #实现细粒度的进程绑定：先绑定到对应的物理核心（node），然后再绑定到逻辑核心（core）
-mpirun -genv I_MPI_DEBUG=5 -host cas274 -env I_MPI_PIN_PROCESSOR_LIST=10 -n 1 ./demo : \
-						   -host cas275 -env I_MPI_PIN_PROCESSOR_LIST=0-1 -n 2 ./affi : \
-						   -host cas276 -env I_MPI_PIN_PROCESSOR_LIST=3-10 -n 3 ./affi
 #进程0在cas274的cpu10，进程1、2在cas275的cpu0、cpu1，进程3、4、5在cas276的cpu3、cpu4、cpu5——但是这样就多线程就没了
+mpirun -genv I_MPI_DEBUG=5 -host cas274 -env I_MPI_PIN_PROCESSOR_LIST=10 -n 1 ./demo : \
+						   -host cas275 -env I_MPI_PIN_PROCESSOR_LIST=0-1 -n 2 ./demo : \
+						   -host cas276 -env I_MPI_PIN_PROCESSOR_LIST=3-10 -n 3 ./demo
+#进程0在cas274，进程1、2在cas275，进程3、4、5在cas276——多线程依然存在
+mpirun -genv I_MPI_DEBUG=5 -host cas274 -n 1 ./demo : \
+						   -host cas275 -n 2 ./affi : \
+						   -host cas276 -n 3 ./affi
 ```
 
 [hpcwiki: binding/pinning](https://hpc-wiki.info/hpc/Binding/Pinning)
