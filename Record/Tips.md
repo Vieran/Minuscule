@@ -113,6 +113,7 @@ nmtui #网络配置
 python test.py > xxx #仅仅输出到文件xxx（覆盖
 python test.py | tee xxx #同时输出到屏幕和文件xxx（覆盖
 python test.py | tee -a xxx #同时输出到屏幕和文件xxx（追加
+nvprof ./demo &>xxx #2>&1 意思是把“标准错误输出”重定向到“标准输出”
 
 #反汇编工具
 objdump -d xxx.o #将可执行文件xxx.o反汇编成为汇编语言
