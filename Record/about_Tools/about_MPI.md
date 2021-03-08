@@ -111,3 +111,26 @@ mpirun -genv I_MPI_DEBUG=5 -host cas274 -n 1 ./demo : \
 
 [知乎：Linux内核101 NUMA架构](https://zhuanlan.zhihu.com/p/62795773)*读懂文档中的一些参数，会需要额外一些的知识*
 
+
+
+## benchmark
+
+*测量进程间通信的延时和带宽*
+
+```bash
+#测试节点间/节点内的通信延时
+mpirun -np 2 -hosts cas218,cas256 ./osu_latency_mp
+mpirun -np 2 -host cas218 ./osu_latency_mp
+
+#测试节点间/节点内的通信带宽
+mpirun -np 2 -hosts cas218,cas256 ./osu_bw
+mpirun -np 2 -host cas218 ./osu_bw
+
+#上述输出的数据的SIZE单位都是MB（？
+```
+
+[OSU InfiniBand Network Analysis and Monitoring Tool v0.9.6 User Guide](http://mvapich.cse.ohio-state.edu/userguide/osu-inam/#_overview_of_the_osu_inam_project)
+
+[OSU Micro-Benchmarks 5.7](https://mvapich.cse.ohio-state.edu/benchmarks/)
+
+[OMB (OSU Micro-Benchmarks) README](https://mvapich.cse.ohio-state.edu/static/media/mvapich/README-OMB.txt)

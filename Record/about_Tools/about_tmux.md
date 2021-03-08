@@ -58,3 +58,17 @@ set-window-option -g mode-keys vi
 ```
 
 
+
+## 配置
+
+```bash
+#配置文件为~/.tmux.conf
+
+#tmux无法显示vim的全部配色的时候，需要设置256色
+set -g default-terminal "screen-256color" #在配置文件写入
+export TERM=screen-256color #在bashrc写入
+```
+
+**参考**
+
+[stack exchange: getting 256 colors to work in tmux](https://unix.stackexchange.com/questions/1045/getting-256-colors-to-work-in-tmux)
