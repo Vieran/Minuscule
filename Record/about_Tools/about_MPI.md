@@ -119,8 +119,8 @@ mpirun -genv I_MPI_DEBUG=5 -host cas274 -n 1 ./demo : \
 
 ```bash
 #测试节点间/节点内的通信延时
-mpirun -np 2 -hosts cas218,cas256 ./osu_latency_mp
-mpirun -np 2 -host cas218 ./osu_latency_mp
+mpirun -np 2 -hosts cas218,cas256 ./osu_latency
+mpirun -np 2 -host cas218 ./osu_latency
 
 #测试节点间/节点内的通信带宽
 mpirun -np 2 -hosts cas218,cas256 ./osu_bw
