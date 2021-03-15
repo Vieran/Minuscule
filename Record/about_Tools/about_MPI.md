@@ -88,13 +88,13 @@ mpirun -genv I_MPI_DEBUG=5 -host cas274 -env I_MPI_PIN_PROCESSOR_LIST=10 -n 1 ./
 						   -host cas276 -env I_MPI_PIN_PROCESSOR_LIST=3-10 -n 3 ./demo
 #进程0在cas274，进程1、2在cas275，进程3、4、5在cas276——多线程依然存在
 mpirun -genv I_MPI_DEBUG=5 -host cas274 -n 1 ./demo : \
-						   -host cas275 -n 2 ./affi : \
-						   -host cas276 -n 3 ./affi
+						   -host cas275 -n 2 ./demo : \
+						   -host cas276 -n 3 ./demo
 
 #进程0、3、4、5在cas174，进程1、2在cas275——多线程依然存在
 mpirun -genv I_MPI_DEBUG=5 -host cas274 -n 1 ./demo : \
-						   -host cas275 -n 2 ./affi : \
-						   -host cas274 -n 3 ./affi
+						   -host cas275 -n 2 ./demo : \
+						   -host cas274 -n 3 ./demo
 ```
 
 [hpcwiki: binding/pinning](https://hpc-wiki.info/hpc/Binding/Pinning)

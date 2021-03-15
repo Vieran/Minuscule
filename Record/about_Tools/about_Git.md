@@ -82,7 +82,7 @@ vim .gitignore
 
 
 
-### 重建版本库
+## 重建版本库
 
 ```bash
 #删除历史记录，重新建立版本库
@@ -96,7 +96,7 @@ git push -f -u origin local_name:remote_name #远程创建分支remote_name并�
 
 
 
-### 撤销修改
+## 撤销修改
 
 ```bash
 #撤销工作区某文件的修改
@@ -125,7 +125,7 @@ git stash drop stash@{?} #删除?的暂存区内容
 
 
 
-### 修改commit信息
+## 修改commit信息
 
 ```bash
 git rebase #更多细节查看man git rebase
@@ -133,3 +133,26 @@ git rebase <branch_name> -i #开启交互模式
 ```
 
 [修改git提交历史](https://www.jianshu.com/p/0f1fbd50b4be)
+
+
+
+## 合并分支
+
+```bash
+#将A分支合并到B分支（fast forward
+git switch B
+git merge A
+
+#合并A分支上的文件a到B分支
+git switch B
+git checkout A a
+
+#合并分支过程中出现冲突
+git status #查看冲突的文件（假设是文件xxx出现冲突
+vim xxx #方法一：手动解决冲突
+git  mergetool #方法二：使用merge工具解决冲突
+```
+
+[Git 分支 - 分支的新建与合并](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6)
+
+[What's the difference between git switch and git checkout \<branch\>](https://stackoverflow.com/questions/57265785/whats-the-difference-between-git-switch-and-git-checkout-branch)
