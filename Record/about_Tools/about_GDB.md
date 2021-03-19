@@ -2,7 +2,9 @@
 
 *Linux命令行中的GDB使用*
 
-### 常用命令
+[Debugging with GDB](https://www.sourceware.org/gdb/current/onlinedocs/gdb.html)
+
+## 常用命令
 
 ```bash
 #调试程序编译时候应该加上-g选项
@@ -66,7 +68,7 @@ kill #停止程序
 
 
 
-### TUI快捷键
+## TUI快捷键
 
 ```bash
 #从裸奔到gdb tui
@@ -90,6 +92,9 @@ tui reg [变量类型] #先不输入变量类型，会出现命令行提示所�
 #查看先前执行的命令
 CTRL+p #如果在gdb命令的窗格下，可以直接上下键就跳转命令
 
+#tui的layout指令
+layout [next|prev|src|asm|split|regs]
+
 #甚至，你可以在gdb中使用python，就像在shell中使用一样
 python print(gdb.breakpoints().[0].location) #打印第一个断点的位置信息
 python gdb.Breakpoint('7') #在第7行设置断点（这个命令看起来并不好用，行号会出问题
@@ -97,14 +102,15 @@ python gdb.Breakpoint('7') #在第7行设置断点（这个命令看起来并不
 
 
 
-### core dump
+## core dump
 
 > 当程序运行的过程中异常终止或崩溃，操作系统会将程序当时的内存状态记录下来，保存在一个文件中，这种行为就叫做Core Dump（核心转储），也就是保存程序崩溃的时候的内存快照
 
 ```bash
 #（在命令行下输入）开启core dump，这个只对当前shell有效（也就是临时的，想要永久生效得设置对应的文件
+ulimit -s unlimited
 ulimit -c unlimited #不限制core dump文件的大小（如果要限制，unlimited改为对应的文件大小，单位是kb
-ulimit -c #检查core dump是否开启（返回值为0表示没有开启，执行上述命令之后返回值有关为unlimited
+ulimit -a #查看所有的ulimit变量值
 
 #GPU下调试（OptiX/RTCore需要编译时候加-lineinfo，其他的加-g或者-G
 export CUDA_ENABLE_COREDUMP_ON_EXCEPTION=1
@@ -119,18 +125,30 @@ echo 1 > /proc/sys/kernel/core_uses_pid
 #将core文件保存在/tmp/corefile目录下，文件名格式为 core-命令名-pid-时间戳
 echo "/tmp/corefile-%e-%p-%t" > /proc/sys/kernel/core_pattern
 
+############################################################################################################
 #使用gdb查看程序xxx执行后的core dump文件（文件名为yyy）信息
 gdb xxx yyy
 #接下来的操作就像是在调试的时候一样（but，记住这是一个dead样本
-#查看崩溃处的变量值，比如a
-print a
-#查看当时所有的本地变量
-info locals
+
+#回溯（backtrace）整个调用栈，对于栈中的所有帧来说，每一行对应于一个帧，回溯过程中使用从CTRL+c来停止回溯
+bt [n] #n指定回溯innermost的n个帧
+bt [-n] #-n指定回溯outermost的n个帧
+
+#选择一个帧（frame）
+f n #选择编号为n的帧
+up n #向上移动n个帧（默认n=1），若n>0，则向outermost方向移动
+down n #向下移动n个帧（默认n=1），若n<0，则向innermost方向移动
+
+#查看帧的信息
+info f #打印当前帧的详细信息
+info args #打印当前帧的变量信息
+layout reg #输出当前帧的寄存器信息（使用info也可，但不是tui
+layout asm #输出汇编（tui
 ```
 
 
 
-### 反向调试
+## 反向调试
 
 ```bash
 #查看程序反向运行到哪里
@@ -157,6 +175,8 @@ record stop
 ```
 
 
+
+## 并行
 
 ### 多进程
 
@@ -201,7 +221,7 @@ thread apply all command #所有线程都执行指令
 
 
 
-### 附录
+## 附录
 
 [GDB core dump例程](https://www.cse.unsw.edu.au/~learn/debugging/modules/gdb_coredumps/)
 
@@ -210,5 +230,7 @@ thread apply all command #所有线程都执行指令
 [十五分钟教会gdb](https://www.bilibili.com/video/BV1KW411r7BR?from=search&seid=67360422147624704)
 
 [cuda-gdb](https://docs.nvidia.com/cuda/cuda-gdb/index.html)
+
+[GDB调试之栈帧、汇编](https://ivanzz1001.github.io/records/post/cplusplus/2018/11/08/cpluscplus-gdbusage_part4)
 
 *多线程和多进程调试的内容比较复杂一点，后续用到的时候再根据需要去查*
