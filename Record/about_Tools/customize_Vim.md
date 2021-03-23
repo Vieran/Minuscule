@@ -247,6 +247,8 @@ vawp #选中一个单词，粘贴替换（这个a可以换做i
 "xy3y #选中某一个（x）粘贴板，然后复制（这里是三行）
 "xp #选中某一个（x）粘贴板，然后粘贴其中内容
 :reg #查看所有粘贴板内容
+* #光标位于某个单词时按下*，高亮整个文件所有相同单词，相当于在全文搜索该单词
+:e #刷新文件
 
 #强大的g命令，全局的
 :g
@@ -281,6 +283,10 @@ map sn :set nosplitright<CR>:vsplit<CR> #快捷键sn竖直向左分屏
 #对于某个已编辑但是想要管理员权限才能保存的内容
 :w !sudo tee % #本质是把当前内容存进这个文件
 :w <不需要管理员权限的目录> #然后再在命令行用sudo替换文件
+
+#切换为粘贴模式（不自动缩进
+:set paste
+:set nopaste #恢复正常模式（输入时候正常缩进
 ```
 
 [vim粘贴板的使用](https://www.cnblogs.com/huahuayu/p/12235242.html)
@@ -289,7 +295,7 @@ map sn :set nosplitright<CR>:vsplit<CR> #快捷键sn竖直向左分屏
 
 
 
-## Vim脚本
+## Vim配置
 
 ```bash
 set number

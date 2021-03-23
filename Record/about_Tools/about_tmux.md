@@ -19,12 +19,14 @@
 #[：进入copy mode（按ctrl+s搜索字符，按n再次搜索同样的字符，按shift+n进行反向搜索，按两次esc退出copy mode
 #d：分离当前会话
 #s：列出所有会话
+#c：创建新的窗口（CTRL+b n进行切换
 #$：重命名当前会话
 #%：左右分屏
 #"：上下分屏
 #上下左右键：在窗格之间跳转（一直按住CTRL+b+上下左右键，可以调整窗格大小
 
 #创建一个名字为xxx的tmux
+tmux new -As xxx #不存在则新建，存在则直接连
 tmux new -s xxx
 
 #显示当前存在的tmux会话列表
