@@ -52,6 +52,8 @@ p [格式] [寄存器/数据] #以某进制（默认十进制）输出（print�
 p /x ($rax+8) #以十六进制输出寄存器%rax的内容加上8
 p /t 0x1111 #以二进制输出0x1111的值
 p *(long*) ($rsp+8) #输出位于$rsp+8处的长整数
+p &var #输出var的内存地址（引用
+p *var #输出存在于地址var的数值（解引用
 x /[num][format][width] <地址> #从地址开始，检查num个字节的内存，使用format打印出来，把内存当成width的值
 x /2g 0xFFFF1111 #检查从地址0xFFFF1111开始的双字（8byte）
 x /20b func_3 #检查函数func_3的前20个字节
