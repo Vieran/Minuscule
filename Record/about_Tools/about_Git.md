@@ -24,6 +24,10 @@ git log --oneline #简单查看commit信息
 git log --online --graph #查看分支信息
 #其他参数：--author参数查看指定用户的记录；--since和--before，--until和--after指定日期查看；--reverse和--topo-order逆向查看；--stat详细显示每次commit中修改的文件的内容；--pretty=xxx改变显示格式为xxx
 
+#取消对文件xxx的追踪
+git rm --chached xxx #在本地不删除该文件
+git rm --f xxx #删除本地文件
+
 #关联远程分支和取消关联
 git remote add origin <url>
 git remote remove origin

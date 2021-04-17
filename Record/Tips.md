@@ -142,6 +142,9 @@ shift+page up/down
 #快速切换目录（目录栈
 pushd
 popd
+
+#解压缩软件包
+rpm2cpio xxx.rpm |cpio -idvm
 ```
 
 [求两个Linux文本文件的交集、差集、并集](https://www.cnblogs.com/thatsit/p/6657993.html)、[diff不同输出格式的区别](https://www.cnblogs.com/wangqiguo/p/5793448.html#_label4)

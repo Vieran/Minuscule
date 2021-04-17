@@ -134,3 +134,8 @@ mpirun -np 2 -host cas218 ./osu_bw
 [OSU Micro-Benchmarks 5.7](https://mvapich.cse.ohio-state.edu/benchmarks/)
 
 [OMB (OSU Micro-Benchmarks) README](https://mvapich.cse.ohio-state.edu/static/media/mvapich/README-OMB.txt)
+
+
+
+## 共享内存
+

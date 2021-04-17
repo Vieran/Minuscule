@@ -1,4 +1,4 @@
-# pieces
+# sporadic
 
 *碎碎的知识*
 
@@ -14,11 +14,11 @@
 
 ## inline assembly
 
-[内联汇编](https://zh.wikipedia.org/wiki/%E5%86%85%E8%81%94%E6%B1%87%E7%BC%96)
+[Wikipedia：内联汇编](https://zh.wikipedia.org/wiki/%E5%86%85%E8%81%94%E6%B1%87%E7%BC%96)
 
 [GNU: how to inline assembly language in c code](https://gcc.gnu.org/onlinedocs/gcc/Using-Assembly-Language-with-C.html)
 
-[软件开发：GCC 内联汇编](https://linux.cn/article-7688-1.html)
+[GCC-Inline-Assembly-HOWTO](https://www.ibiblio.org/gferg/ldp/GCC-Inline-Assembly-HOWTO.html)
 
 [关于GNU inline assembly](http://wen00072.github.io/blog/2015/12/10/about-inline-asm/)
 
