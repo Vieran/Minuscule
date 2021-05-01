@@ -116,13 +116,42 @@ int main() {
 
 [CUDA编程之快速入门](https://www.cnblogs.com/skyfsm/p/9673960.html)*讲到非常详细*
 
-[CUDA tutorial](https://cuda-tutorial.readthedocs.io/en/latest/)
-
 [CUDA中的unified memory](https://zhuanlan.zhihu.com/p/82651065)
 
 [CUD统一内存管理](https://developer.nvidia.com/zh-cn/blog/unified-memory-cuda-beginners/)
 
 [CUDA中的shared memory](https://developer.nvidia.com/blog/using-shared-memory-cuda-cc/)
+
+
+
+## Multi GPU
+
+*简单的多GPU编程，参考书籍《Professional CUDA C Programming》*
+
+> **基本的多GPU编程步骤**
+>
+> 1. 选择使用的GPU`cudaSetDevice`
+> 2. 为每个device上的事件创建流`cudaStreamCreate`
+> 3. 在device上分配空间`cudaMalloc`
+> 4. 在每个device上执行任务
+> 5. 等待任务结束
+> 6. 在device上释放资源
+>
+> **MPI和GPUDirect(多进程多GPU)**
+>
+> 1. 传统的MPI在GPU之间的数据传输：拷贝回到CPU再进行MPI传输，然后拷贝回到GPU
+> 2. 某些MPI的实现（比如MVAPICH2）在使用`CUDA-Aware MPI`的条件下支持直接在GPU之间进行传输（其实就是MPI自动识别了device和host内存，所以可以直传，但是底层还是传回到CPU的；可以指定传输的分块大小；语法是MPI的语法
+> 3. CUDA-Aware MPI GPUDirect RDMA实现PCIe总线连着的设备之间更加快速的直接通信（这涉及到GPU之间连接的拓扑结构；语法可以使用MPI语法（需要指定使用GPUDirect RDMA）或者使用CUDA API的cudaMemcpy
+>
+> *数据量大的时候（大于1MB），明显CUDA API性能更好；如果需要任意GPU之间进行通信，那么至少一个进程管理一个GPU（使用MPI）*
+
+```bash
+#指定可见的GPU
+export CUDA_VISIBLE_DEVICES=0,1 #指定GPU0和GPU1可见
+
+#查询GPU之间连接的拓扑结构
+nvidia-smi topo -m
+```
 
 
 
@@ -152,3 +181,11 @@ nsight
 [知乎：关于CUDA的一些概念](https://zhuanlan.zhihu.com/p/91334380)
 
 [是时候用nsight分析优化工具了](https://cloud.tencent.com/developer/article/1468566)
+
+[NVIDIA/cuda-samples: Samples for CUDA Developers which demonstrates features in CUDA Toolkit (github.com)](https://github.com/NVIDIA/cuda-samples)
+
+[nvcc的编译过程](https://blog.csdn.net/fb_help/article/details/80462853)
+
+[nvcc的arch、code、gencode选项](https://zhengqm.github.io/blog/2018/12/07/cuda-nvcc-tips.html)
+
+[stackoverflow: how to use -arch and -code and SM vs COMPUTE](https://stackoverflow.com/questions/35656294/cuda-how-to-use-arch-and-code-and-sm-vs-compute)

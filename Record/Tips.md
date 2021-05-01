@@ -145,6 +145,9 @@ popd
 
 #解压缩软件包
 rpm2cpio xxx.rpm |cpio -idvm
+
+#删除xxx环境变量
+unset xxx
 ```
 
 [求两个Linux文本文件的交集、差集、并集](https://www.cnblogs.com/thatsit/p/6657993.html)、[diff不同输出格式的区别](https://www.cnblogs.com/wangqiguo/p/5793448.html#_label4)
