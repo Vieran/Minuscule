@@ -17,6 +17,7 @@ file xxx
 #运行（run）程序（有断点就在断点处停留
 r [参数]
 start #也可以用这个命令开始运行程序
+set args [运行参数] #在gdb打开后，程序运行前，可以设置运行参数，例如./demo -i a.txt则set args -i a.txt
 
 #继续（continue）执行程序，直到下一个断点/程序结束
 c
@@ -57,11 +58,14 @@ p *var #输出存在于地址var的数值（解引用
 x /[num][format][width] <地址> #从地址开始，检查num个字节的内存，使用format打印出来，把内存当成width的值
 x /2g 0xFFFF1111 #检查从地址0xFFFF1111开始的双字（8byte）
 x /20b func_3 #检查函数func_3的前20个字节
+x /s $esi #查询寄存器%esi里面存储的字符串
+x/nfu addr #以f格式打印从addr开始的n个长度单元为u的内存值
 
 #信息（information）
 i [reg,frame,locals,args] #显示有关当前寄存器/栈帧/本地变量/环境变量有关信息（也可以使用info
 i frame #有关当前栈帧信息
 info registers #所有寄存器的值
+objdump -Cd xxx | less #以文本形式查看xxx程序的汇编代码
 
 #退出
 q #退出（quit）gdb
@@ -80,6 +84,8 @@ gdb -tui xxx
 
 #在不同窗格之间跳转（源码窗格是编号1
 CTRL+x o #先按前面的，然后单独按o会可以在几个窗格之间跳转（其实o可以替换为对应的窗格编号，就像下面那些命令
+CTRL+x 0 #关闭当前窗口
+CTRL+x 1 #关闭其他窗口
 
 #恢复窗格的format（有时候可能会变形
 CTRL+l
@@ -234,5 +240,9 @@ thread apply all command #所有线程都执行指令
 [cuda-gdb](https://docs.nvidia.com/cuda/cuda-gdb/index.html)
 
 [GDB调试之栈帧、汇编](https://ivanzz1001.github.io/records/post/cplusplus/2018/11/08/cpluscplus-gdbusage_part4)
+
+[[翻译\]二进制漏洞利用：如何使用GDB调试-智能设备-看雪论坛-安全社区|安全招聘|bbs.pediy.com](https://bbs.pediy.com/thread-253577.htm)
+
+[gdb中x的用法_Hello,World-CSDN博客_gdb x](https://blog.csdn.net/baidu_24256693/article/details/47298513)
 
 *多线程和多进程调试的内容比较复杂一点，后续用到的时候再根据需要去查*

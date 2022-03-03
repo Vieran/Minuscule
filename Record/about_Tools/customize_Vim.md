@@ -11,12 +11,21 @@ wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.
 #在环境变量脚本中设置
 NVIM=${HOME}/cyJ/WorkStation/nvim-linux64
 export XDG_CONFIG_HOME=${NVIM} #指定neovim的初始化脚本
+export PATH=${NVIM}/bin:$PATH
 alias vim=neovim #用neovim替代vim
 
 #创建neovim默认的配置文件夹和文件
 mkdir nvim #在neovim安装文件夹下创建文件夹
 cd nvim
 vim init.vim #创建配置文件
+
+#颜色配置
+#在.bashrc里面加入
+export TERM=screen-256color
+#在init.nvim加入
+if &term == 'screen'
+	set t_Co=256
+endif
 ```
 
 
@@ -28,7 +37,7 @@ vim init.vim #创建配置文件
 ### vim-plug
 
 ```bash
-#在neovim安装目录下创建autoload文件夹，将指定的文件下载到此文件夹下（这个得挑时间，有时候dns被污染了就下载不了
+#在neovim安装目录下的nvim目录下创建autoload文件夹，将指定的文件下载到此文件夹下（这个得挑时间，有时候dns被污染了就下载不了
 mkdir autoload
 cd autoload
 wget https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -78,7 +87,7 @@ make install
 #if you can sudo, run the following commands
 apt-get install nodejs clang clangd npm #be carefull that clang and clangd should be the same version
 
-#clangd经常崩溃，不好用，换用ccls
+#clangd经常崩溃，而且无法补全全部函数（比如路径上的mpi函数），故换用ccls
 git clone --depth=1 --recursive https://github.com/MaskRay/ccls
 cd ccls
 cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/path/to/clang+llvm-xxx -DCMAKE_INSTALL_PREFIX=$HOME/cyJ/WorkStation/ccls -DCMAKE_CXX_COMPILER=g++ #最后这个g++得指定，需要支持c++17的
@@ -287,94 +296,14 @@ map sn :set nosplitright<CR>:vsplit<CR> #快捷键sn竖直向左分屏
 #切换为粘贴模式（不自动缩进
 :set paste
 :set nopaste #恢复正常模式（输入时候正常缩进
+
+# vimdiff对比两个文件
+vimdiff -d file1 file2 #左右分屏
+vimdiff -o file1 file2 #上下分屏
+#在file1某行输入dp（diff put），将file1该行推送到file2；在file1某行输入do（diff obtain），将file2该行拉取到file1
 ```
 
 [vim粘贴板的使用](https://www.cnblogs.com/huahuayu/p/12235242.html)
 
 [vim命令大全](https://zhuanlan.zhihu.com/p/51440836)
-
-
-
-## Vim配置
-
-```bash
-set number
-set relativenumber
-set tabstop=4
-set shiftwidth=4
-set autoindent
-set scrolloff=4
-
-call plug#begin()
-
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'preservim/nerdtree'
-Plug 'vim-airline/vim-airline'
-Plug 'mileszs/ack.vim'
-Plug 'junegunn/fzf'
-Plug 'majutsushi/tagbar'
-Plug 'dense-analysis/ale'
-
-call plug#end()
-
-"=============================================================================================
-"---------------------------------------FOR PLUGINS-------------------------------------------
-"=============================================================================================
-
-"set shortcut for nerdtree
-nnoremap <C-n> :NERDTree<CR>
-
-"set shorcut for ack and make not jump to the first result automatically
-cnoreabbrev Ack Ack!
-nnoremap <Leader>a :Ack!<Space>
-
-"set airline for coc.nvim and ale
-set statusline^=%{coc#status()}
-let g:airline#extensions#coc#enabled = 1
-let g:airline#extensions#ale#enabled = 1
-
-"==============================================coc.nvim settings=========================================
-let g:coc_global_extensions = ['coc-clangd', 'coc-vimlsp']
-
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . " " . expand('<cword>')
-  endif
-endfunction
-"=========================================end coc.nvim settings==========================================
-
-
-"setting for ale
-let g:ale_disable_lsp = 1
-"let g:ale_sign_column_always = 1
-"let g:ale_sign_error = '>>'
-"let g:ale_sign_warning = '--'
-"let g:ale_lint_on_save = 1
-
-"setting for tagbar
-nnoremap <silent><F10> :TagbarToggle<CR>
-nnoremap <silent><F11> <C-]>
-nnoremap <silent><F12> <c-o>
-let g:tagbar_autofocus = 1 "this make tagbar focus when open
-```
 

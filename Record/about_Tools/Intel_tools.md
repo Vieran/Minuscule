@@ -95,10 +95,56 @@ vtune -collect threading ./amg -problem 1 -P 1 1 1 -n 10 10 10 -printallstats #�
 
 
 
+## Intel SDE
+
+**什么是Intel software development emulator？**
+
+> 仿真器，让带有新指令（比如AVX512）的代码在不支持该指令的系统上运行
+>
+> 检测应用运行过程中动态执行的指令，以判断一个应用在新的Intel平台（拥有更高级的指令的平台）上是否会有潜在的性能提升
+>
+> [Intel SDE document](https://software.intel.com/content/www/us/en/develop/articles/intel-software-development-emulator.html)
+>
+> [Basic use of Intel SDE](https://iq.opengenus.org/use-intel-software-development-emulator-sde/)
+
+```bash
+# 查看帮助信息
+sde -help
+
+# 列出所有执行的动态指令
+sde -mix -- <应用> [参数]
+sde -omix <输出文件名称> -- <应用> [参数]
+#mix的输出文件很大，具体里面的参数含义可以参考文档（最前面那个指令是总和的，后面是各个函数的
+
+# 查看AVX和SSE指令的转换
+sde -ast -- <应用> [参数]
+```
+
+
+
+## Advisor
+
+**什么是advisor？**
+
+> 进行roofline模型分析
+
+```bash
+# 查看命令行帮助信息
+advixe-cl --help
+advixe-cl --collect=survey --project-dir=./advi-result --search-dir src:r=./src -- ./demo
+
+# 打开gui界面
+advixe-gui
+```
+
+
+
 ## 其他
 
 ```bash
 mpiexec.hydra #Intel的mpiexec可能比一般的软件包的mpirun更加高效
 #Intel的mpi使用，详细见about_MPI.md
+
+mpiifort -show # 显示当前的Intel相关的环境变量
 ```
 

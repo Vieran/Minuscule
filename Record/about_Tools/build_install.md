@@ -37,7 +37,7 @@ make PREFIX=~/cyJ/WorkStation/openblas-0.3.12 install
 
 
 
-### GGC
+### GCC
 
 ```bash
 #版本9.3.0

@@ -148,6 +148,28 @@ rpm2cpio xxx.rpm |cpio -idvm
 
 #删除xxx环境变量
 unset xxx
+
+#打包全部文件，包括隐藏文件
+tar zcvf asc21.tar.gz .[!.]* *
+
+#配置免密登录（本地操作
+ssh-keygen -R xxx.xxx.xxx #清除之前的key
+ssh-keygen
+ssh-copy-id user@xxx.xxx.xxx.xxx
+
+#gpg检验工具的使用
+gpg --verify gcc-9.3.0.tar.gz.sig gcc-9.3.0.tar.gz
+gpg --keyserver keys.gnupg.net --recv-key A328C3A2C3C45C06
+gpg --verify gcc-9.3.0.tar.gz.sig gcc-9.3.0.tar.gz
+
+# strings，打印任意文件里面可输出的字符
+strings /lib64/libgfortran.so.5.0.0 | grep GFORTRAN
+
+# 递归查找某个文件
+find . -name "xxx"
+
+# man手册的使用
+man -l xxx # 使用man打开本地的xxx文件而不是去路径上搜索
 ```
 
 [求两个Linux文本文件的交集、差集、并集](https://www.cnblogs.com/thatsit/p/6657993.html)、[diff不同输出格式的区别](https://www.cnblogs.com/wangqiguo/p/5793448.html#_label4)
@@ -158,7 +180,9 @@ unset xxx
 
 1. 将操作步骤记录下来，方便查错和回溯
 
-2. 建立设置环境变量的.sh文件，随时执行切换环境，养成管理环境变量的良好习惯
+2. sshfs挂载远程的Linux文件系统目录，直接在本地改代码
+
+3. 建立设置环境变量的.sh文件，随时执行切换环境，养成管理环境变量的良好习惯
 
    ```bash
    #!/bin/sh
@@ -176,6 +200,13 @@ unset xxx
    export MANPATH=${MPI}/share:$MANPATH #配置man手册（man3是函数的定义和使用方法
    ```
 
-3. 使用CTRL+r可以搜寻执行过的指令
+4. 使用CTRL+r可以搜寻执行过的指令
 
+5. Windows和Linux协作：GitHub/sftp。只在本地改代码，仓库在本地，然后push到远端运行；或者只在本地改代码改代码，仓库在远端，设置git bash忽略LF和CRLF区别；或者直接在远端写代码。
 
+   ```bash
+   git config --global core.autocrlf input
+   git config --global core.safecrlf true
+   ```
+
+   

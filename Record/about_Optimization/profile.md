@@ -1,6 +1,6 @@
-# PROFILE
+# CPU PROFILE
 
-*简单介绍几种常见的profile工具及其使用方法*
+*简单介绍几种常见的CPU profile工具及其使用方法*
 
 ## perf
 
@@ -21,7 +21,7 @@ perf list #列出来的事件在其他命令下可以通过-e跟踪，多个事�
 #分析整体情况
 perf stat ./demo
 
-#进一步指定事件进行采样
+#进一步指定事件进行采样（-g是堆栈追踪，可以看出来热点函数
 perf record -g ./demo
 
 #读取报告（还有很多其他的参数可以使用

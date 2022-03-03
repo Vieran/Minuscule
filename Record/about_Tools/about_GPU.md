@@ -128,22 +128,24 @@ int main() {
 
 *简单的多GPU编程，参考书籍《Professional CUDA C Programming》*
 
-> **基本的多GPU编程步骤**
+> **单进程的多GPU编程步骤**
 >
 > 1. 选择使用的GPU`cudaSetDevice`
 > 2. 为每个device上的事件创建流`cudaStreamCreate`
 > 3. 在device上分配空间`cudaMalloc`
-> 4. 在每个device上执行任务
-> 5. 等待任务结束
+> 4. 在每个device上执行任务，并等待任务结束
+> 5. 在device之间进行数据交换`cudaMemcpy`
 > 6. 在device上释放资源
 >
-> **MPI和GPUDirect(多进程多GPU)**
+> *关键是使用CPU去手动管理各个GPU之间的通信*
+>
+> **多进程的多GPU编程：MPI和GPUDirect**
 >
 > 1. 传统的MPI在GPU之间的数据传输：拷贝回到CPU再进行MPI传输，然后拷贝回到GPU
 > 2. 某些MPI的实现（比如MVAPICH2）在使用`CUDA-Aware MPI`的条件下支持直接在GPU之间进行传输（其实就是MPI自动识别了device和host内存，所以可以直传，但是底层还是传回到CPU的；可以指定传输的分块大小；语法是MPI的语法
-> 3. CUDA-Aware MPI GPUDirect RDMA实现PCIe总线连着的设备之间更加快速的直接通信（这涉及到GPU之间连接的拓扑结构；语法可以使用MPI语法（需要指定使用GPUDirect RDMA）或者使用CUDA API的cudaMemcpy
+> 3. CUDA-Aware MPI GPUDirect RDMA实现PCIe总线连着的设备之间更加快速的直接通信（这涉及到GPU之间连接的拓扑结构；语法是MPI语法
 >
-> *数据量大的时候（大于1MB），明显CUDA API性能更好；如果需要任意GPU之间进行通信，那么至少一个进程管理一个GPU（使用MPI）*
+> *数据量大的时候（大于1MB），明显CUDA API性能更好；如果需要任意GPU之间进行通信，那么至少一个进程管理一个GPU（使用MPI）；多进程使得每个进程只需要关心“相同”的操作*
 
 ```bash
 #指定可见的GPU
@@ -152,6 +154,30 @@ export CUDA_VISIBLE_DEVICES=0,1 #指定GPU0和GPU1可见
 #查询GPU之间连接的拓扑结构
 nvidia-smi topo -m
 ```
+
+
+
+## CUDA profile
+
+```bash
+#命令行下进行profile，并把结果输出到文件xxx
+nvprof ./a.x &>xxx
+nvprof -o xxx.nvvp ./demo #这也输出的文件在图形界面可以看
+
+#图形界面进行profile（两种工具，后者是新的，更推荐使用
+nvvp
+nsight
+```
+
+[是时候用nsight分析优化工具了](https://cloud.tencent.com/developer/article/1468566)
+
+[Nsight Visual Studio Edition Documentation and Support](https://developer.nvidia.com/nsight-visual-studio-edition-documentation-and-support)
+
+[Kernel Profiling Guide :: Nsight Compute Documentation (nvidia.com)](https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#roofline)
+
+[NERSC / Roofline-on-NVIDIA-GPUs · GitLab](https://gitlab.com/NERSC/roofline-on-nvidia-gpus)
+
+[Better Performance at Lower Occupancy (nvidia.com)](https://www.nvidia.com/content/GTC-2010/pdfs/2238_GTC2010.pdf)
 
 
 
@@ -167,20 +193,10 @@ nvcc a.cu -o a.x
 ./a.x
 nvcc -arch=sm_70 -rdc=true filename.cu -o filename.x #使用global函数调用global函数的时候，需要需要设置算力（-arch=sm_70是-arch=compute_70 -code=compute_70,sm_70的缩写
 
-#命令行下进行profile，并把结果输出到文件xxx
-nvprof ./a.x &>xxx
-nvprof -o xxx.nvvp ./demo #这也输出的文件在图形界面可以看
-
-#图形界面进行profile（两种工具，后者是新的，更推荐使用
-nvvp
-nsight
-
 #kernel函数调用kernel函数：dynamic parallelism
 ```
 
 [知乎：关于CUDA的一些概念](https://zhuanlan.zhihu.com/p/91334380)
-
-[是时候用nsight分析优化工具了](https://cloud.tencent.com/developer/article/1468566)
 
 [NVIDIA/cuda-samples: Samples for CUDA Developers which demonstrates features in CUDA Toolkit (github.com)](https://github.com/NVIDIA/cuda-samples)
 
